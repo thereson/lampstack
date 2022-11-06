@@ -1,0 +1,6 @@
+[linux]
+178.62.124.98
+
+[linux:vars]
+ansible_user=root
+ansible_password=eBuka1234o

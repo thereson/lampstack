@@ -1,0 +1,39 @@
+---
+  - name: upload laravel app on debian 11
+    hosts: all
+    tasks:
+      - name: install curl
+        apt:
+          name: curl
+          state: present
+      - name: copy files
+        ansible.builtin.copy:
+          src: /root/bash.sh
+          dest: /root
+          mode: 777
+      - name: execute script
+        command: /root/bash.sh
+
+      - name: move composer
+        command: mv /root/composer.phar /usr/local/bin/composer
+      
+      - name: change permission
+        command: chmod +x /usr/local/bin/composer
+
+      - name: install git
+        apt:
+          name: git
+          state: present
+      - name: deploy app from master
+        ansible.builtin.copy:
+          src: /root/demo.conf
+          dest: /etc/apache2/sites-available
+      - name: clone repo
+        ansible.builtin.git:
+          repo: https://github.com/f1amy/laravel-realworld-example-app.git
+          dest: /var/www/laravel
+      - name: connect to database;
+        ansible.built.copy:
+          src: /root/mysql.sh
+          dest: /root
+        
